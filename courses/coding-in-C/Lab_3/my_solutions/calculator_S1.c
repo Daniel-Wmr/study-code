@@ -22,7 +22,7 @@ int main(){
             calculating = 0;
         }
         else if(a_operation == '-'){
-            result = first_number + second_number;
+            result = first_number - second_number;
             printf("Result: %f\n", result);
             calculating = 0;
         }
