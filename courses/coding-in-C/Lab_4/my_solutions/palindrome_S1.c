@@ -1,10 +1,10 @@
 #include <stdio.h>
 
-char input(){
-    char input[20];
+char input(char input[]){
+    /*char user_input[20];
     scanf("%19s", input);
     printf("Your input: %s", input);
-
+    */
 }
 
 int main(void){
@@ -19,6 +19,6 @@ int main(void){
     *(pContent + 1) = 'a';
     printf("content_neu: %s\n", content);
 
-    input();
+    input(content);
 
 }
