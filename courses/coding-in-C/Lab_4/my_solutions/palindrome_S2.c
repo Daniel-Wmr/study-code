@@ -18,8 +18,15 @@ int main(void){
     } 
     if (str_len > 0 && user_input[str_len - 1] == '\n') user_input[str_len - 1] = '\0';
 
-    char user_input_inverted[101];
+    char user_input_inverted[102];
     for(int i=0; i<(str_len-1); i++) user_input_inverted[i] = user_input[(str_len-2)-i];
-    printf("%s, %s", user_input, user_input_inverted);
+    user_input_inverted[str_len] = '\0';
+
+    if(strcmp(user_input, user_input_inverted) == 0){
+        printf("\nYour provided word \"%s\" is a palindrome.", user_input);
+    }
+    else{
+        printf("\nYour provided word \"%s\" is not a palindrome.", user_input);
+    }
 
 }
