@@ -5,6 +5,10 @@ char input(char input[]){
     scanf("%19s", input);
     printf("Your input: %s", input);
     */
+    char* pInput = input;
+    *(pInput+1) = 'c';
+    printf("input: %s", pInput);
+
 }
 
 int main(void){
