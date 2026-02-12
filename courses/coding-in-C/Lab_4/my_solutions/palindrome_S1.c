@@ -23,6 +23,6 @@ int main(void){
     *(pContent + 1) = 'a';
     printf("content_neu: %s\n", content);
 
-    input(content);
+    input("AAtions speak louder than words");
 
 }
