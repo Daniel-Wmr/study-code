@@ -12,6 +12,12 @@ int has_one(int* array, int size) {
     return 0;           // keine 1 mehr vorhanden
 }
 
+void terminal(int time_counter, int size, int* array){
+    printf("Time %d: ", time_counter);
+        for (int i = 0; i < size; i++) printf("%d ", array[i]);
+        printf("\n");
+}
+
 
 int main(){
 
@@ -29,8 +35,11 @@ int main(){
     
     srand(time(NULL));
     int time_counter = 0;
+    terminal(time_counter, size, array);
     
     while(has_one(array, size)){
+        Sleep(1000);
+
         for(int i=0; i<10; i++) *(p_temp+i)=0;
     
         for(int i=0; i<size; i++){
@@ -54,11 +63,7 @@ int main(){
 
         for(int i=0; i<size; i++) array[i] = temp_array[i];
 
-        printf("Time %d: ", time_counter);
-        for (int i = 0; i < size; i++) printf("%d ", array[i]);
-        printf("\n");
-
         time_counter++;
-        Sleep(1000);
+        terminal(time_counter, size, array);
     }
 }
