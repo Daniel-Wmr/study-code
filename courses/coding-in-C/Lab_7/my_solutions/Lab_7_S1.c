@@ -58,5 +58,10 @@ int main() {
         *(ptr + i) = i * i;
     }
 
+    for(int i = 0; i < 2*N; i++){
+        printf("%d ", *(ptr + i));
+    }
+
+    free(ptr);
     return 0;
 }
