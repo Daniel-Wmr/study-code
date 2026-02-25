@@ -1,24 +1,26 @@
 #include <stdio.h>
 
-
-typedef struct SensorData{
+typedef struct SensorData {
     float time;
     float probability;
 } SensorData;
 
-typedef struct Sensor{
+typedef struct Sensor {
     int id;
     double threshold;
     SensorData data[3000];
     int object_detection[3000];
 } Sensor;
 
-typedef struct Interval{
+typedef struct Interval {
     float start_time;
     float end_time;
 } Interval;
 
 
+// ------------------------------------------------------------
+// Datei einlesen
+// ------------------------------------------------------------
 int readSensorFile(const char* filepath, SensorData temp[]) {
 
     FILE* file = fopen(filepath, "r");
@@ -40,6 +42,10 @@ int readSensorFile(const char* filepath, SensorData temp[]) {
     return count;
 }
 
+
+// ------------------------------------------------------------
+// Threshold-basierte Objekterkennung
+// ------------------------------------------------------------
 void fillObjectDetection(Sensor* sensor, int count) {
     for (int i = 0; i < count; i++) {
         sensor->object_detection[i] =
@@ -47,6 +53,10 @@ void fillObjectDetection(Sensor* sensor, int count) {
     }
 }
 
+
+// ------------------------------------------------------------
+// Sensor aus temporären Daten erzeugen
+// ------------------------------------------------------------
 Sensor createSensor(int id, double threshold,
                     SensorData temp[], int count) {
 
@@ -63,33 +73,51 @@ Sensor createSensor(int id, double threshold,
     return s;
 }
 
-int findIntervals(const Sensor* sensor, int count, Interval intervals[]) {
 
+// ------------------------------------------------------------
+// Intervalle finden (Modus 1 = normal, Modus 2 = Überlappung)
+// ------------------------------------------------------------
+int findIntervals(const Sensor* s1,
+                  const Sensor* s2,
+                  int count,
+                  Interval intervals[],
+                  int mode)
+{
     int interval_counter = 0;
     int in_interval = 0;
     float start_time = 0;
 
     for (int i = 0; i < count; i++) {
 
+        int active;
+
+        // Bedingung auswählen
+        if (mode == 1) {
+            active = (s1->object_detection[i] == 1);
+        } else {
+            active = (s1->object_detection[i] == 1 &&
+                      s2->object_detection[i] == 1);
+        }
+
         // START: 0 → 1
-        if (!in_interval && sensor->object_detection[i] == 1) {
+        if (!in_interval && active) {
             in_interval = 1;
-            start_time = sensor->data[i].time;
+            start_time = s1->data[i].time;
         }
 
         // ENDE: 1 → 0
-        if (in_interval && sensor->object_detection[i] == 0) {
+        if (in_interval && !active) {
             in_interval = 0;
 
             intervals[interval_counter].start_time = start_time;
-            intervals[interval_counter].end_time   = sensor->data[i - 1].time;
+            intervals[interval_counter].end_time   = s1->data[i - 1].time;
             interval_counter++;
         }
 
         // Sonderfall: Datei endet während eines Intervalls
         if (in_interval && i == count - 1) {
             intervals[interval_counter].start_time = start_time;
-            intervals[interval_counter].end_time   = sensor->data[i].time;
+            intervals[interval_counter].end_time   = s1->data[i].time;
             interval_counter++;
         }
     }
@@ -97,6 +125,10 @@ int findIntervals(const Sensor* sensor, int count, Interval intervals[]) {
     return interval_counter;
 }
 
+
+// ------------------------------------------------------------
+// Intervalle ausgeben
+// ------------------------------------------------------------
 void printIntervals(const char* title, Interval intervals[], int count) {
     printf("\n%s:\n", title);
     for (int i = 0; i < count; i++) {
@@ -108,7 +140,9 @@ void printIntervals(const char* title, Interval intervals[], int count) {
 }
 
 
-
+// ------------------------------------------------------------
+// main()
+// ------------------------------------------------------------
 int main() {
 
     SensorData temp_SensorData1[3000];
@@ -125,16 +159,19 @@ int main() {
     Sensor sensor1 = createSensor(1, threshold1, temp_SensorData1, count1);
     Sensor sensor2 = createSensor(2, threshold2, temp_SensorData2, count2);
 
-    // --- Intervalle bestimmen ---
+    // Intervalle bestimmen
     Interval intervals1[3000];
     Interval intervals2[3000];
+    Interval overlaps[3000];
 
-    int n1 = findIntervals(&sensor1, count1, intervals1);
-    int n2 = findIntervals(&sensor2, count2, intervals2);
+    int n1 = findIntervals(&sensor1, NULL, count1, intervals1, 1);
+    int n2 = findIntervals(&sensor2, NULL, count2, intervals2, 1);
+    int nOverlap = findIntervals(&sensor1, &sensor2, count1, overlaps, 2);
 
-    // --- Intervalle ausgeben ---
+    // Intervalle ausgeben
     printIntervals("Sensor 1 Intervalle", intervals1, n1);
     printIntervals("Sensor 2 Intervalle", intervals2, n2);
+    printIntervals("Überlappende Intervalle", overlaps, nOverlap);
 
     return 0;
 }
