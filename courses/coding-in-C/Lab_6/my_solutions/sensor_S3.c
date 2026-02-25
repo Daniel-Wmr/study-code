@@ -14,45 +14,36 @@ typedef struct Sensor{
 } Sensor;
 
 
-int main() {
+int readSensorFile(const char* filepath, SensorData temp[]) {
 
-    SensorData temp_SensorData1[3000];
-    FILE* pSensor1 = fopen("../sensor1.txt", "r");
-    if (!pSensor1) {
-        printf("Datei konnte nicht geöffnet werden!\n");
+    FILE* file = fopen(filepath, "r");
+    if (!file) {
+        printf("Datei %s konnte nicht geöffnet werden!\n", filepath);
         return -1;
     }
 
     int count = 0;
     while (count < 3000 &&
-           fscanf(pSensor1, "%f %f", 
-                  &temp_SensorData1[count].time,
-                  &temp_SensorData1[count].probability) == 2) 
+           fscanf(file, "%f %f",
+                  &temp[count].time,
+                  &temp[count].probability) == 2)
     {
         count++;
     }
 
-    fclose(pSensor1);
-    printf("Es wurden %d Messungen eingelesen.\n", count);
+    fclose(file);
+    return count;
+}
 
-    
+int main() {
+
+    SensorData temp_SensorData1[3000];
+    int count1 = readSensorFile("../sensor1.txt", temp_SensorData1);
+    printf("Sensor 1: %d Messungen eingelesen.\n", count1);
+
     SensorData temp_SensorData2[3000];
-    FILE* pSensor2 = fopen("../sensor2.txt", "r");
-    if (!pSensor2) {
-        printf("Datei konnte nicht geöffnet werden!\n");
-        return -1;
-    }
+    int count2 = readSensorFile("../sensor2.txt", temp_SensorData2);
+    printf("Sensor 2: %d Messungen eingelesen.\n", count2);
 
-    count = 0;
-    while (count < 3000 &&
-           fscanf(pSensor2, "%f %f", 
-                  &temp_SensorData2[count].time,
-                  &temp_SensorData2[count].probability) == 2) 
-    {
-        count++;
-    }
-
-    fclose(pSensor2);
-    printf("Es wurden %d Messungen eingelesen.\n", count);
-
+    return 0;
 }
