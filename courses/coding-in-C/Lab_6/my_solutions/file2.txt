@@ -4,3 +4,8 @@ Dies ist ein Test für fputc.
 Zeile 1: Hallo von fputs!
 Zeile 2: Noch eine Zeile.
 Zeile 3: fputs schreibt Strings am Stück.
+
+Formatiertes Schreiben:
+Zahl: 42
+Wort: Beispiel
+Gemischt: Zahl=42, Wort=Beispiel
