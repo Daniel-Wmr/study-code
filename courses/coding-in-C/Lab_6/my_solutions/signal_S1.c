@@ -55,6 +55,34 @@ int main() {
         fgetc(pFile1); // den '\n' verbrauchen 
     }
     fclose(pFile1);
+    printf("\n\n");
     
+    // fscanf formatiertes Einlesen (z.B. Zahl + Wort)
+    pFile1 = fopen("file1.txt", "r");
+    if (pFile1 == NULL) {
+        printf("Datei konnte nicht geöffnet werden!\n");
+        return -1;
+    }
+
+    int number;
+    char word[100];
+
+    /* 
+       fscanf liest formatierte Daten.
+       %d  → liest eine ganze Zahl (überspringt Whitespaces)
+       %s  → liest ein Wort bis zum nächsten Whitespace
+       Wichtig: fscanf liest NICHT die ganze Datei, sondern nur das,
+       was dem Format entspricht.
+    */
+    if (fscanf(pFile1, "%d %99s", &number, word) == 2) {
+        printf("Gelesene Zahl: %d\n", number);
+        printf("Gelesenes Wort: %s\n", word);
+    } else {
+        printf("Datei enthält nicht das erwartete Format!\n");
+    }
+
+    fclose(pFile1);
+    printf("\n\n");
+
     return 0;
 }
