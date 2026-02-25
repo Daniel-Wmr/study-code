@@ -35,6 +35,30 @@ int readSensorFile(const char* filepath, SensorData temp[]) {
     return count;
 }
 
+void fillObjectDetection(Sensor* sensor, int count) {
+    for (int i = 0; i < count; i++) {
+        sensor->object_detection[i] =
+            (sensor->data[i].probability > sensor->threshold) ? 1 : 0;
+    }
+}
+
+Sensor createSensor(int id, double threshold,
+                    SensorData temp[], int count) {
+
+    Sensor s;
+    s.id = id;
+    s.threshold = threshold;
+
+    for (int i = 0; i < count; i++) {
+        s.data[i] = temp[i];
+    }
+
+    fillObjectDetection(&s, count);
+
+    return s;
+}
+
+
 int main() {
 
     SensorData temp_SensorData1[3000];
@@ -44,6 +68,12 @@ int main() {
     SensorData temp_SensorData2[3000];
     int count2 = readSensorFile("../sensor2.txt", temp_SensorData2);
     printf("Sensor 2: %d Messungen eingelesen.\n", count2);
+
+    double threshold1 = 0.8;
+    double threshold2 = 0.7;
+
+    Sensor sensor1 = createSensor(01, threshold1, temp_SensorData1, count1);
+    Sensor sensor2 = createSensor(02, threshold2, temp_SensorData2, count2);
 
     return 0;
 }
