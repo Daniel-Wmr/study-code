@@ -39,22 +39,48 @@ void append(double value) {
     current->pNext = newNode;
 }
 
+void insert_at_position(double value, int position) {
+    Node* newNode = create_node(value);
+
+    if (position == 0) {
+        newNode->pNext = head;
+        head = newNode;
+        return;
+    }
+
+    Node* current = head;
+    for (int i = 0; i < position - 1; i++) {
+        current = current->pNext;
+    }
+
+    newNode->pNext = current->pNext;
+    current->pNext = newNode;
+}
+
 void print_list() {
     Node* current = head;
     while (current != NULL) {
         printf("%.2f -> ", current->value);
         current = current->pNext;
     }
-    printf("NULL\n");
+    printf("NULL\n\n");
 }
 
 void print_array(int* array, int size){
     for(int i = 0; i < size; i++){
         printf("%d ", array[i]);
     }
-    printf("\n");
+    printf("\n\n");
 }
 
+void free_list() {
+    Node* current = head;
+    while (current != NULL) {
+        Node* next = current->pNext;
+        free(current);
+        current = next;
+    }
+}
 
 int main() {
 
@@ -63,7 +89,6 @@ int main() {
     }
 
     print_list();
-    printf("\n\n");
 
     srand(time(NULL));
     int array[51];
@@ -73,7 +98,6 @@ int main() {
         array[i] = r;
     }
     print_array(array, 50);
-    printf("\n\n");
 
     int r_number = rand();
     for(int i = 49; i > 2; i--){
@@ -81,7 +105,11 @@ int main() {
     }
     array[3] = r_number;
     print_array(array, 51);
-    printf("\n\n");
+
+    insert_at_position(r_number, 3);
+    print_list();
+
+    free_list();
 
     return 0;
 }
