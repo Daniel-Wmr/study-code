@@ -7,10 +7,16 @@ Playlist* init_playlist(){
         return NULL;
     }
     p->head = NULL;
+    p->songs_counter = 0;
     return p;
 }
 
 void add_song(const char* name, const char* artist, Playlist* p){
+    if(p->songs_counter >= MAX_SONGS){
+        printf("Maximum amount of songs already reached!\n");
+        return;
+    }
+
     Song* new_song = malloc(sizeof(Song));
     if(!new_song) {
         printf("Song allocation failed!\n");
@@ -23,15 +29,15 @@ void add_song(const char* name, const char* artist, Playlist* p){
 
     if(p->head == NULL){
         p->head = new_song;
-        return;
+    } else {
+        Song* current = p->head;
+        while(current->pNext != NULL){
+            current = current->pNext;
+        }
+        current->pNext = new_song;
     }
 
-    Song* current = p->head;
-    while(current->pNext != NULL){
-        current = current->pNext;
-    }
-
-    current->pNext = new_song;
+    p->songs_counter++;
 }
 
 void print_playlist(Playlist* p){
@@ -61,6 +67,7 @@ void delete_firstSong(Playlist* p){
     free(firstSong->pArtist);
     free(firstSong);
 
+    p->songs_counter--;
 }
 
 void delete_playlist(Playlist* p){

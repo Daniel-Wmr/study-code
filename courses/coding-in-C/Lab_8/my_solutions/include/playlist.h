@@ -1,6 +1,8 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
+#define MAX_SONGS 20
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -13,6 +15,7 @@ typedef struct Song {
 
 typedef struct Playlist {
     Song* head;
+    int songs_counter;
 } Playlist;
 
 Playlist* init_playlist();
