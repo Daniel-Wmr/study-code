@@ -62,7 +62,7 @@ void print_playlist(Playlist* p){
 
 void delete_firstSong(Playlist* p){
     if(p->head == NULL){
-        printf("Playlist already empty...");
+        printf("Playlist already empty...\n");
         return;
     }
 
@@ -73,6 +73,14 @@ void delete_firstSong(Playlist* p){
     free(firstSong->pArtist);
     free(firstSong);
 
+}
+
+void delete_playlist(Playlist* p){
+    while(p->head != NULL){
+        delete_firstSong(p);
+    }
+
+    free(p);
 }
 
 int main(){
