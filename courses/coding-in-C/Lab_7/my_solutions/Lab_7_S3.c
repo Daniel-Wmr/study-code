@@ -46,6 +46,19 @@ void add_song(const char* name, const char* artist, Playlist* p){
     current->pNext = new_song;
 }
 
+void print_playlist(Playlist* p){
+    if(p->head == NULL){
+        printf("This Playlist contains no songs...\n");
+        return;
+    }
+    
+    Song* current = p->head;
+    while(current != NULL){
+        printf("Title: %s, Artist: %s\n", current->pName, current->pArtist);
+        current = current->pNext;
+    }
+
+}
 
 int main(){
     return 0;
