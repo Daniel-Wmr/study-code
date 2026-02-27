@@ -94,6 +94,37 @@ void test_delete_playlist() {
     delete_playlist(p);
 }
 
+void test_max_songs_limit() {
+    Playlist* p = init_playlist();
+
+    for (int i = 0; i < MAX_SONGS; i++) {
+        add_song("Song", "Artist", p);
+    }
+    assert(p->songs_counter == MAX_SONGS);
+
+    add_song("Overflow", "Overflow", p);
+    assert(p->songs_counter == MAX_SONGS);
+
+    // Liste hat wirklich nur MAX_SONGS Elemente
+    int count_nodes = 0;
+    Song* current = p->head;
+    while (current != NULL) {
+        count_nodes++;
+        current = current->pNext;
+    }
+    assert(count_nodes == MAX_SONGS);
+
+    // Letzter Song ist korrekt
+    Song* last = p->head;
+    while (last->pNext != NULL)
+        last = last->pNext;
+
+    assert(strcmp(last->pName, "Song") == 0);
+    assert(strcmp(last->pArtist, "Artist") == 0);
+
+    delete_playlist(p);
+}
+
 
 /* === Test-Runner === */
 int main(void)
