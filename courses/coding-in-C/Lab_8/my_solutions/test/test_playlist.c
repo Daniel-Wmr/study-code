@@ -36,6 +36,39 @@ void test_add_song(){
     delete_playlist(p);
 }
 
+void test_delete_firstSong() {
+    Playlist* p = init_playlist();
+
+    add_song("Song1", "Artist1", p);
+    add_song("Song2", "Artist2", p);
+    add_song("Song3", "Artist3", p);
+
+    int old_count = p->songs_counter;
+
+    // Der neue erste Song nach dem Löschen
+    Song* expected_new_head = p->head->pNext;
+
+    delete_firstSong(p);
+
+    // 1) Counter korrekt?
+    assert(p->songs_counter == old_count - 1);
+
+    // 2) Head zeigt auf das alte zweite Element?
+    assert(p->head == expected_new_head);
+
+    // 3) Head ist nicht NULL (weil vorher 3 Songs)
+    assert(p->head != NULL);
+
+    // 4) Head-Daten sind korrekt?
+    assert(strcmp(p->head->pName, "Song2") == 0);
+    assert(strcmp(p->head->pArtist, "Artist2") == 0);
+
+    // 5) Liste ist weiterhin konsistent
+    assert(p->head->pNext != NULL);
+    assert(strcmp(p->head->pNext->pName, "Song3") == 0);
+
+    delete_playlist(p);
+}
 
 /* === Test-Runner === */
 int main(void)
