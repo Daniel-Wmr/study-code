@@ -81,6 +81,20 @@ void test_delete_firstSong_empty(){
     delete_playlist(p);
 }
 
+void test_delete_playlist() {
+    Playlist* p = init_playlist();
+
+    add_song("Song1", "Artist1", p);
+    add_song("Song2", "Artist2", p);
+    add_song("Song3", "Artist3", p);
+
+    assert(p->songs_counter == 3);
+    assert(p->head != NULL);
+
+    delete_playlist(p);
+}
+
+
 /* === Test-Runner === */
 int main(void)
 {
