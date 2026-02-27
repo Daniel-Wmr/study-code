@@ -70,6 +70,17 @@ void test_delete_firstSong() {
     delete_playlist(p);
 }
 
+void test_delete_firstSong_empty(){
+    Playlist* p = init_playlist();
+    delete_firstSong(p);
+
+    assert(p->head == NULL);
+    assert(p->songs_counter == 0);
+    assert(p->songs_counter >= 0);
+
+    delete_playlist(p);
+}
+
 /* === Test-Runner === */
 int main(void)
 {
