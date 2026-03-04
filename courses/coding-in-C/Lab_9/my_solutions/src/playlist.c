@@ -99,7 +99,5 @@ int count_songs_recursive(const Song *current){
         return 0;
     }
 
-    int counter = 1;
-    counter = counter + count_songs_recursive(current->pNext);
-    return 1 + counter;
+    return 1 + count_songs_recursive(current->pNext);
 }
