@@ -79,5 +79,20 @@ void delete_playlist(Playlist* p){
 }
 
 Song* find_song_by_title(Playlist *playlist, const char *title){
-    
+    int song_count = playlist->songs_counter;
+    int c = 0;
+    int searching_flag = 0;
+    Song* current = playlist->head;
+
+    while(current->pNext != NULL){
+        c++;
+
+        if(strcomp(current->pName, title) == 0);
+            searching_flag = 1;
+            song_count = song_count - c;
+    }
+
+    if(searching_flag){
+        for(int i = 0; i < song_count; i++)
+    }
 }
