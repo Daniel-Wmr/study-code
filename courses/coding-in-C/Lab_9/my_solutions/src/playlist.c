@@ -96,12 +96,10 @@ Song* find_song_by_title(Playlist *playlist, const char *title){
 
 int count_songs_recursive(const Song *current){
     if(current == NULL){
-        return 1
+        return 0;
     }
 
-    current = current->pNext;
-
     int counter = 1;
-    counter = counter + count_songs_recursive(current);
-    return counter;
+    counter = counter + count_songs_recursive(current->pNext);
+    return 1 + counter;
 }
