@@ -82,14 +82,14 @@ void delete_playlist(Playlist* p){
 Song* find_song_by_title(Playlist *playlist, const char *title){
     Song* current = playlist->head;
 
-    while(current->pNext != NULL){
+    while(current != NULL){
 
         if(strcmp(current->pName, title) == 0){
             return current;
         }
-        
+
+        current = current->pNext;
     }
-    
-    printf("No Song with the title \"%s\" has been found", title);
+
     return NULL;
 }
