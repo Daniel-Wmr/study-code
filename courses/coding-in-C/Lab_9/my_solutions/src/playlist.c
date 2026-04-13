@@ -1,5 +1,6 @@
 #include "../include/playlist.h"
 #include <string.h>
+#include <stdlib.h>
 
 Playlist* init_playlist(){
     Playlist* p = malloc(sizeof(Playlist));
@@ -100,4 +101,11 @@ int count_songs_recursive(const Song *current){
     }
 
     return 1 + count_songs_recursive(current->pNext);
+}
+
+void sort_playlist_by_title(Playlist *playlist){
+    Song* head = playlist->head;
+    Song* pivot = head;
+    
+
 }
