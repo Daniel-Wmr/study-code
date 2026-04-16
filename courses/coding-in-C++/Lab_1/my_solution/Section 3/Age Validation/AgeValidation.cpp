@@ -1,3 +1,17 @@
+/**
+ * @file AgeValidation.cpp
+ * @brief Section 2 of Lab_1
+ * 
+ * In this project a simple age-validator has been implemented.
+ * It takes an user-input, validates it and prints in the terminal
+ * whether the age suggests that the person is a senior, an adult or a kid/teenager. 
+ * 
+ * The user-input will be validated whereby it is checked whether:
+ * - the number is not a negative
+ * - the number is a realistic age
+ * - the input is not junk but a valid number
+ */
+
 #include <iostream>
 #include <string>
 #include <cstdint>
