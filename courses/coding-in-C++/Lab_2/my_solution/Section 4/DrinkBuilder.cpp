@@ -1,3 +1,18 @@
+/**
+ * @file DrinkBuilder.cpp
+ * @brief Lab_2 Section 4
+ * 
+ * In this project a drink builder has been implemented.
+ * First, the user is asked whether he wants to customize the
+ * parameters by himself or use default values.
+ * If the user chooses to customize the parameters, he will be 
+ * asked to enter the values for each parameter (attribute of the object).
+ * The user input will be validated during the process, therefore, invalid
+ * user inputs will be ignored and the user will be asked to try again.
+ * After the validation of all values of the drinks attributes they 
+ * will be displayed in the terminal.
+ * This project is based on usage and handling of classes and I/O.
+ */
 #include <iostream>
 #include <limits>
 
@@ -14,7 +29,7 @@ void userInput(InputMode mode, DrinkBuilder& drink)
     switch (mode)
     {
     case NAME:
-        while (status == false)
+        while (!status)
         {
             std::cout << "Enter the name of your customized Drink: ";
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -32,7 +47,7 @@ void userInput(InputMode mode, DrinkBuilder& drink)
         drink.setName(name);
         break;
     case SUGAR:
-        while (status == false)
+        while (!status)
         {
             std::cout << "Set sugar to (int from 0 to 10): ";
             if (!(std::cin >> number))
@@ -53,9 +68,9 @@ void userInput(InputMode mode, DrinkBuilder& drink)
         }
         break;
     case TEMPERATURE:
-        while (status == false)
+        while (!status)
         {
-            std::cout << "Set your temperature to (int from 0 to 100): ";
+            std::cout << "Set your temperature to (int from 1 to 100): ";
             if (!(std::cin >> number))
             {
                 std::cout << "Your number is invalid... Please try again." << std::endl;
@@ -74,7 +89,7 @@ void userInput(InputMode mode, DrinkBuilder& drink)
             }
         break;
     case WITHMILK:
-        while (status == false)
+        while (!status)
         {
             std::cout << "Should your drink contain milk? (1/0 for Yes/No): ";
             if (!(std::cin >> validation))
@@ -96,7 +111,7 @@ void userInput(InputMode mode, DrinkBuilder& drink)
 
 bool DrinkBuilder::isValid() const
 {
-    return (!(this->name.empty())) && 
+    return !this->name.empty() && 
         (this->sugar >= MINIMUM_SUGAR) && 
         (this->sugar <= MAXIMUM_SUGAR) &&
         (this->temperature >= MINIMUM_TEMPERATURE) &&
@@ -142,7 +157,7 @@ bool firstUserPrompt()
     bool status = false;
     
     std::cout << "Would you like to design your drink? Press 1 for YES or 0 for DEFAULT: ";
-    while (status == false)
+    while (!status)
     {
         if (!(std::cin >> userInput))
         {
@@ -176,7 +191,7 @@ int main()
 
         if (!(customDrink.isValid()))
         {
-            std::cout << "A problem with your object values has occured..." << std::endl;
+            std::cout << "A problem with your object values has occurred..." << std::endl;
             return -1;
         }
     }
