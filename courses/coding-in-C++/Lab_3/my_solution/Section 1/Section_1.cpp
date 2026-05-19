@@ -34,7 +34,7 @@ std::string Content::typeToString(Type type)
     {
         case Type::TEXT: return "Text";
         case Type::VIDEO: return "Video";
-        case Type::Quiz: return "Quiz";
+        case Type::QUIZ: return "Quiz";
         case Type::WORKSHEET: return "Worksheet";
         default: return "Unknown";
     }
@@ -148,7 +148,7 @@ void User::leave(Course* course)
 void User::displayUser() const
 {
     std::cout << "\nUser: " << this->name << std::endl;
-    std::cout << "Email: " << this-email << std::endl;
+    std::cout << "Email: " << this->email << std::endl;
     std::cout << "Enrolled courses: " << this->enrolledCourses.size() << std::endl;
 }
 
