@@ -1,3 +1,5 @@
+#include <iostream>
+#include <cmath>
 #include "bugHunt_assistance_system.hpp"
 
 DistanceSensor::DistanceSensor(const std::string &sensor_position,
@@ -40,12 +42,13 @@ std::string DistanceSensor::get_position() const
 
 bool DistanceSensor::operator<(const DistanceSensor &other) const
 {
-    return measured_distance_m > other.measured_distance_m;
+    return measured_distance_m < other.measured_distance_m;
 }
 
 bool DistanceSensor::is_exactly_at_warning_distance(double warning_distance) const
 {
-    return measured_distance_m == warning_distance;
+    double epsilon = 1e-9;
+    return std::fabs(measured_distance_m - warning_distance) < epsilon;
 }
 
 void DistanceSensor::print_info() const
@@ -68,7 +71,7 @@ void EmergencyBrakeSystem::evaluate(Vehicle &vehicle,
         return;
     }
 
-    if (front_sensor.get_distance() > critical_distance_m)
+    if (front_sensor.get_distance() < critical_distance_m)
     {
         std::cout << "[EmergencyBrakeSystem] Emergency braking triggered.\n";
         vehicle.brake(30.0);
@@ -89,7 +92,7 @@ void LaneKeepingAssist::evaluate(Vehicle &vehicle) const
     if (offset > max_allowed_offset_m)
     {
         std::cout << "[LaneKeepingAssist] Correcting to the left.\n";
-        vehicle.steer(-correction_angle);
+        vehicle.steer(-correction_angle);    
     }
     else if (offset < -max_allowed_offset_m)
     {
@@ -117,10 +120,10 @@ void AdaptiveCruiseControl::evaluate(Vehicle &vehicle,
         return;
     }
 
-    if (front_sensor.get_distance() < minimum_distance_m)
+    if (front_sensor.get_distance() < minimum_distance_m)   
     {
-        std::cout << "[AdaptiveCruiseControl] Vehicle ahead is close. Accelerating.\n";
-        vehicle.accelerate(5.0);
+        std::cout << "[AdaptiveCruiseControl] Vehicle ahead is close. Braking.\n";
+        vehicle.brake(5.0);
     }
     else if (vehicle.get_speed() < target_speed_kmh)
     {
