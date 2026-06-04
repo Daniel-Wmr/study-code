@@ -1,5 +1,7 @@
 #include <iostream>
 
+const float ALARM_THRESHOLD = 30.0;
+
 class Display
 {
 public:
@@ -18,6 +20,16 @@ public:
     }
 };
 
+class Alarm
+{
+public:
+    void check_temperature(float value)
+    {
+        if (value > ALARM_THRESHOLD)
+        std::cout << "ALARM! Temperature is above 30 degrees!" << std::endl;
+    }
+};
+
 class TemperatureSensor
 {
 private:
@@ -25,6 +37,7 @@ private:
 
     Display display;
     Logger logger;
+    Alarm alarm;
 
 public:
     void set_temperature(float value)
@@ -34,6 +47,7 @@ public:
         // directly coupled to other classes
         display.show_temperature(temperature);
         logger.log_temperature(temperature);
+        alarm.check_temperature(temperature);
     }
 };
 
