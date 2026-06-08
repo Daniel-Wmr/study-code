@@ -23,7 +23,7 @@ private:
     void updateCurrentSearchResults(const std::shared_ptr<WebRessource>& ressource);
 
 public:
-    SearchEngine() = default;
+    SearchEngine();
 
     void addWebRessource(const std::shared_ptr<WebRessource>& ressource);
     void removeWebRessource(const std::shared_ptr<WebRessource>& url);

@@ -4,6 +4,9 @@
 
 int SearchEngine::total_queries = 0;
 
+SearchEngine::SearchEngine()
+    : current_query(""){}
+
 bool SearchEngine::searchInRessources()
 {
     current_search_results.clear();
