@@ -46,6 +46,7 @@ void WebRessource::printRessource() const
 {
     std::cout << "URL: " << url << std::endl;
     std::cout << "Ranking: " << ranking << std::endl;
+    std::cout << "Popular: " << (isPopular() ? "Yes" : "No") << std::endl;
     std::cout << "Content: " << content << std::endl;
 }
 

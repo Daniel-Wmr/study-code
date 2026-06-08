@@ -24,6 +24,7 @@ bool SearchEngine::searchInRessources()
         if (ressource && 
             ressource->getContent().find(current_query.getQuery()) != std::string::npos)
             {
+                ressource->updateRanking();
                 updateCurrentSearchResults(ressource);
             } 
     }

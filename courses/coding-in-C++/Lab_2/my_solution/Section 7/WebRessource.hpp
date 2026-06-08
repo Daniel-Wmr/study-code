@@ -10,7 +10,7 @@ constexpr int AMOUNT_SYM_URL_CHECK = 8;
 class WebRessource
 {
 private:
-    static constexpr int POPULARITY_THRESHOLD = 80;
+    static constexpr int POPULARITY_THRESHOLD = 100;
 
     std::string url;
     std::string content;
