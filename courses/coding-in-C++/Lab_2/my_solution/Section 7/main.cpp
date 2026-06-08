@@ -1,5 +1,6 @@
 #include <iostream>
 #include <memory>
+#include <stdexcept>
 
 #include "SearchEngine.hpp"
 #include "SearchQuery.hpp"
@@ -7,8 +8,50 @@
 
 int main()
 {
+    std::cout << "===== SEARCH ENGINE DEMO =====\n" << std::endl;
+
     SearchEngine engine;
 
+    /*
+     * Exception Demonstration
+     */
+    std::cout << "--- Exception Demonstration ---" << std::endl;
+
+    try
+    {
+        auto invalidResource = std::make_shared<WebRessource>(
+            "http://invalid-url.com",
+            "Invalid URL example",
+            50
+        );
+    }
+    catch (const std::invalid_argument& e)
+    {
+        std::cout << "Caught exception: "
+                  << e.what()
+                  << std::endl;
+    }
+
+    try
+    {
+        auto invalidRanking = std::make_shared<WebRessource>(
+            "https://valid-url.com",
+            "Negative ranking example",
+            -10
+        );
+    }
+    catch (const std::invalid_argument& e)
+    {
+        std::cout << "Caught exception: "
+                  << e.what()
+                  << std::endl;
+    }
+
+    std::cout << std::endl;
+
+    /*
+     * Create Resources
+     */
     auto cppResource = std::make_shared<WebRessource>(
         "https://cpp-tutorial.com",
         "C++ programming tutorial for beginners",
@@ -33,43 +76,109 @@ int main()
         40
     );
 
+    /*
+     * Add Resources
+     */
     engine.addWebRessource(cppResource);
     engine.addWebRessource(searchResource);
     engine.addWebRessource(mixedCaseResource);
     engine.addWebRessource(lowRankResource);
 
-    std::cout << "\n--- Query 1: programming, max 2 results ---\n";
+    /*
+     * Search #1
+     */
+    std::cout
+        << "\n--- Query 1: programming (max 2 results) ---"
+        << std::endl;
+
     engine.setCurrentQuery(SearchQuery("programming", 2));
     engine.executeSearch();
 
-    std::cout << "\n--- Query 2: SEARCH, max 3 results ---\n";
+    /*
+     * Search #2
+     */
+    std::cout
+        << "\n--- Query 2: SEARCH (case insensitive) ---"
+        << std::endl;
+
     engine.setCurrentQuery(SearchQuery("SEARCH", 3));
     engine.executeSearch();
 
-    std::cout << "\n--- Query 3: invalid whitespace query ---\n";
+    /*
+     * Invalid Query
+     */
+    std::cout
+        << "\n--- Query 3: whitespace only ---"
+        << std::endl;
+
     engine.setCurrentQuery(SearchQuery("   ", 3));
     engine.executeSearch();
 
-    std::cout << "\n--- Query 4: no matching results ---\n";
+    /*
+     * No Result Query
+     */
+    std::cout
+        << "\n--- Query 4: no results ---"
+        << std::endl;
+
     engine.setCurrentQuery(SearchQuery("python", 3));
     engine.executeSearch();
 
-    std::cout << "\n--- Query 5: maxOutput = 1 ---\n";
+    /*
+     * Max Output Test
+     */
+    std::cout
+        << "\n--- Query 5: maxOutput = 1 ---"
+        << std::endl;
+
     engine.setCurrentQuery(SearchQuery("programming", 1));
     engine.executeSearch();
 
-    std::cout << "\n--- Derived attribute test: popularity ---\n";
-    std::cout << cppResource->getURL()
-              << " popular: "
-              << (cppResource->isPopular() ? "yes" : "no")
-              << std::endl;
+    /*
+     * Derived Attribute
+     */
+    std::cout
+        << "\n--- Derived Attribute: Popularity ---"
+        << std::endl;
 
-    std::cout << searchResource->getURL()
-              << " popular: "
-              << (searchResource->isPopular() ? "yes" : "no")
-              << std::endl;
+    std::cout
+        << cppResource->getURL()
+        << " -> "
+        << (cppResource->isPopular() ? "Popular" : "Not Popular")
+        << std::endl;
 
-    std::cout << "\n--- Static query counter / engine info ---\n";
+    std::cout
+        << searchResource->getURL()
+        << " -> "
+        << (searchResource->isPopular() ? "Popular" : "Not Popular")
+        << std::endl;
+
+    /*
+     * out_of_range Exception
+     */
+    std::cout
+        << "\n--- Out Of Range Demonstration ---"
+        << std::endl;
+
+    try
+    {
+        auto invalidAccess = engine.getWebRessource(999);
+    }
+    catch (const std::out_of_range& e)
+    {
+        std::cout
+            << "Caught exception: "
+            << e.what()
+            << std::endl;
+    }
+
+    /*
+     * Statistics
+     */
+    std::cout
+        << "\n--- Search Engine Statistics ---"
+        << std::endl;
+
     engine.printInfo();
 
     return 0;
