@@ -1,10 +1,25 @@
 #include <iostream>
 #include <string>
+#include <stdexcept>
 
 #include "WebRessource.hpp"
 
 WebRessource::WebRessource(const std::string& url, const std::string& content, const int ranking)
-    : url(url), content(content), ranking(ranking){}
+{
+    if (url.rfind("https://", 0) != 0)
+    {
+        throw std::invalid_argument("URL must start with https://");
+    }
+
+    if (ranking < 0)
+    {
+        throw std::invalid_argument("Ranking must not be negative.");
+    }
+
+    this->url = url;
+    this->content = content;
+    this->ranking = ranking;
+}
 
 void WebRessource::setURL(const std::string& url)
 {
