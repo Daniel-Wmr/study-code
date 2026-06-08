@@ -8,8 +8,7 @@ WebRessource::WebRessource(const std::string& url, const std::string& content, c
 
 void WebRessource::setURL(const std::string& url)
 {
-    if (url.substr(START_POS_URL_CHECK, AMOUNT_SYM_URL_CHECK) == "https://")
-    {
+    if (url.rfind("https://", 0) == 0)    {
         this->url = url;
     }
     else

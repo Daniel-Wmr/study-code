@@ -19,7 +19,7 @@ private:
 
     SearchQuery current_query;
 
-    bool searchInRessources() const;
+    bool searchInRessources();
     void updateCurrentSearchResults(const std::shared_ptr<WebRessource>& ressource);
 
 public:
@@ -33,6 +33,8 @@ public:
     std::shared_ptr<WebRessource> getWebRessource(const int index) const;
     int getSearchResultCount() const;
     void sortCurrentRessources();
+    
+    void executeSearch();
     void printRelevantRessources() const;
 
     void printInfo() const;

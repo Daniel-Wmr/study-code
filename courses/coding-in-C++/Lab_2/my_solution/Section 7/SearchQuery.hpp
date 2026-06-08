@@ -4,8 +4,6 @@
 #include <iostream>
 #include <string>
 
-#include "WebRessource.hpp"
-
 class SearchQuery
 {
 private:

@@ -2,14 +2,38 @@
 
 #include "SearchEngine.hpp"
 
-bool SearchEngine::searchInRessources() const
+int SearchEngine::total_queries = 0;
+
+bool SearchEngine::searchInRessources()
 {
-    
+    current_search_results.clear();
+
+    if (!current_query.isValid())
+    {
+        std::cout << "Invalid query!" << std::endl;
+        return false;
+    }
+
+    incTotalQueries();
+
+    for (const auto& ressource : web_ressources)
+    {
+        if (ressource && 
+            ressource->getContent().find(current_query.getQuery()) != std::string::npos)
+            {
+                updateCurrentSearchResults(ressource);
+            } 
+    }
+
+    sortCurrentRessources();
+
+    return !current_search_results.empty();
 }
 
-void updateCurrentSearchResults(const std::shared_ptr<WebRessource>& ressource)
+void SearchEngine::updateCurrentSearchResults(
+    const std::shared_ptr<WebRessource>& ressource)
 {
-
+    current_search_results.push_back(ressource);
 }
 
 void SearchEngine::addWebRessource(const std::shared_ptr<WebRessource>& ressource)
@@ -64,23 +88,35 @@ void SearchEngine::sortCurrentRessources()
             });
 }
 
+void SearchEngine::executeSearch()
+{
+    if (searchInRessources())
+    {
+        printRelevantRessources();
+    }
+    else
+    {
+        std::cout << "No matching ressource found..." << std::endl;
+    }
+}
+
 void SearchEngine::printRelevantRessources() const
 {
     int counter = 0;
 
     std::cout << "=== Relevant Resources ===" << std::endl;
     
-    for (auto& resource : web_ressources)
+    for (const auto& resource : current_search_results)
     {
-        counter++; 
-
-        if (counter > current_query.getMaxOutput())
+        if (counter >= current_query.getMaxOutput())
         {
             return;
         }
 
         resource->printRessource();
         std::cout << std::endl;
+
+        counter++;
     }
 }
 
@@ -92,4 +128,14 @@ void SearchEngine::printInfo() const
     std::cout << "Current query: " << current_query.getQuery() << std::endl;
     std::cout << "Maximum output of resources: " << current_query.getMaxOutput() << std::endl;
     std::cout << "Amount of current search solutions: " << current_search_results.size() << std::endl;
+}
+
+int SearchEngine::getTotalQueries()
+{
+    return total_queries;
+}
+
+void SearchEngine::incTotalQueries()
+{
+    total_queries++;
 }

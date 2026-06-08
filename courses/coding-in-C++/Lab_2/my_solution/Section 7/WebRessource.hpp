@@ -4,8 +4,6 @@
 #include <iostream>
 #include <string>
 
-#include "SearchQuery.hpp"
-
 constexpr int START_POS_URL_CHECK = 0;
 constexpr int AMOUNT_SYM_URL_CHECK = 8;
 
