@@ -1,0 +1,15 @@
+Section 4:
+
+Functional Requirements:
+1. The active alarm clock information should be displayed on the lock screen.
+2. If the alarm goes off, the speaker should make noises.
+3. If the alarm goes off, the vibration unit should vibrate.
+4. It should be possibl to set and change the alarm in the application.
+5. The alarm should automatically adapt to different timezones.
+6. If the alarm goes off, a slider to deactivated the alarm should be displayed.
+7. It should be possible to set several alarms at once.
+8. If the alarm goes off, a snooze button should appear, which is online activatable if first a logic task has been solved by the user.
+
+non-functional Requirements:
+1. The vibration unit should vibrate in a frequenze of 0.5Hz.
+2. If no certain ringtone is set, the default sound "Ringotono" will be selected per default.
