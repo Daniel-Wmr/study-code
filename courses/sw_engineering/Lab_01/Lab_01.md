@@ -563,9 +563,9 @@ Focus only on priority and product value.
 
 #### 3. Play Product Owner and Developers: Improve Stories (25 minutes)
 
-Starting from the top of the ordered backlog, each team member takes two backlog items.
+Starting from the top of the ordered backlog, each team member takes one backlog item.
 
-For your selected items:
+For your selected item:
 
 * Improve the item into a clearer user story in GitLab
 * Add acceptance criteria
@@ -598,12 +598,11 @@ The rest of the team plays the Developers and should check:
 * Is the story small enough to be discussed and estimated?
 
 Improve the story together until the team agrees that it is good enough for estimation.
-Update the item with the improved version.
+Update the issue or item with the improved version.
 
 #### 4. Planning Poker (15 minutes)
 
-Estimate the improved stories with planning poker. Use any online planning poker tool or app of your choice e.g. [scrumpoker-online.org](https://www.scrumpoker-online.org/de/).
-
+Estimate the improved stories with planning poker.
 The person who prepared and presented the story acts as Product Owner for that story and does not estimate it.
 All other team members estimate as Developers.
 
